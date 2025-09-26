@@ -4,10 +4,10 @@
 
 **/matches
 **/client
+**/battlecode
 
 .temp/**
 **/__pycache__/**
 submission.zip
 engine_version.txt
 client_version.txt
-
