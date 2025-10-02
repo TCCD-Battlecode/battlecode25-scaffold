@@ -395,24 +395,57 @@ Moves one step in the given direction.
 
 `def can_attack(loc: MapLocation) -> bool`
 
+Tests whether this robot can attack the given location. Types of attacks for specific units determine whether or not towers, other robots, or empty tiles can be attacked.
+
+- **Parameters**:
+  - `loc`: the location to check.
+- **Returns**: True if the robot can attack the given location, false otherwise.
+- **Bytecode Cost**: 10
 
 ### attack
 
 `def attack(loc: MapLocation, use_secondary_color: bool = False) -> None`
 
+Performs the specific attack for this robot type.
+
+- **Parameters**:
+  - `loc`: the location to attack.
+  - `use_secondary_color`: whether to use the secondary color for the attack (if applicable).
+- **Returns**: None
+- **Bytecode Cost**: 0
 
 ### can_mop_swing
 
 `def can_mop_swing(dir: Direction) -> bool`
 
+Tests whether this robot (which must be a mopper) can perform a mop swing in a specific direction
+
+- **Parameters**:
+  - `dir`: the direction to check.
+- **Returns**: True if the robot can perform a mop swing in the given direction, false otherwise.
+- **Bytecode Cost**: 10
+
 ### mop_swing
 
 `def mop_swing(dir: Direction) -> None`
 
+Performs a mop swing in the given direction (only for moppers!)
+
+- **Parameters**:
+  - `dir`: the direction to perform the mop swing in.
+- **Returns**: None
+- **Bytecode Cost**: 0
 
 ### can_paint
 
 `def can_paint(loc: MapLocation) -> bool`
+
+Tests whether this robot can paint the given location.
+
+- **Parameters**:
+  - `loc`: the location to check.
+- **Returns**: True if the robot can paint the given location, false otherwise.
+- **Bytecode Cost**: 10
 
 ---
 
@@ -422,45 +455,125 @@ Moves one step in the given direction.
 
 `def can_mark_tower_pattern(tower_type: UnitType, loc: MapLocation) -> bool`
 
+Checks if the robot can build a tower by marking a 5x5 pattern centered at the given location. This requires there to be a ruin at the location.
+
+- **Parameters**:
+  - `tower_type`: the type of tower to build. Must be a tower type.
+  - `loc`: the center of the pattern to mark.
+- **Returns**: True if the robot can mark the tower pattern centered at the given location, false otherwise.
+- **Bytecode Cost**: 50
+
 ### can_mark_resource_pattern
 
 `def can_mark_resource_pattern(loc: MapLocation) -> bool`
+
+Checks if the robot can mark a 5x5 special resource pattern centered at the given location.
+
+- **Parameters**:
+  - `loc`: the center of the pattern to mark.
+- **Returns**: True if the robot can mark the resource pattern centered at the given location, false otherwise.
+- **Bytecode Cost**: 50
 
 ### mark_tower_pattern
 
 `def mark_tower_pattern(tower_type: UnitType, loc: MapLocation) -> None`
 
+Builds a tower by marking a 5x5 pattern centered at the given location. This requires there to be a ruin at the location.
+
+- **Parameters**:
+  - `tower_type`: the type of tower to build. Must be a tower type.
+  - `loc`: the center of the pattern to mark.
+- **Returns**: None
+- **Bytecode Cost**: 50
+
 ### mark_resource_pattern
 
 `def mark_resource_pattern(loc: MapLocation) -> None`
+
+Marks a 5x5 special resource pattern centered at the given location.
+- **Parameters**:
+  - `loc`: the center of the pattern to mark.
+- **Returns**: None
+- **Bytecode Cost**: 50
 
 ### can_mark
 
 `def can_mark(loc: MapLocation) -> bool`
 
+Checks if the location can be marked.
+
+- **Parameters**:
+  - `loc`: the location to check.
+- **Returns**: True if the robot can mark the given location, false otherwise.
+- **Bytecode Cost**: 5
+
 ### mark
 
 `def mark(loc: MapLocation, use_secondary_color: bool) -> None`
+
+Adds a mark at the given location.
+
+- **Parameters**:
+  - `loc`: the location to mark.
+  - `use_secondary_color`: whether to use the secondary color for the mark.
+- **Returns**: None
+- **Bytecode Cost**: 5
 
 ### can_remove_mark
 
 `def can_remove_mark(loc: MapLocation) -> bool`
 
+Checks if a mark at the location can be removed.
+
+- **Parameters**:
+  - `loc`: the location to check.
+- **Returns**: True if the robot can remove a mark at the given location, false otherwise.
+- **Bytecode Cost**: 5
+
 ### remove_mark
 
 `def remove_mark(loc: MapLocation) -> None`
+
+Removes the mark at the given location.
+
+- **Parameters**:
+  - `loc`: the location to remove the mark from.
+- **Returns**: None
+- **Bytecode Cost**: 5
 
 ### can_complete_tower_pattern
 
 `def can_complete_tower_pattern(tower_type: UnitType, loc: MapLocation) -> bool`
 
+Checks if the robot can build a tower at the given location. This requires there to be a ruin at the location. This also requires the 5x5 region to be painted correctly.
+
+- **Parameters**:
+  - `tower_type`: the type of tower to build. Must be a tower type.
+  - `loc`: the center of the pattern to check.
+- **Returns**: True if the robot can build a tower of the given type at the given location, false otherwise.
+- **Bytecode Cost**: 50
+
 ### complete_tower_pattern
 
 `def complete_tower_pattern(tower_type: UnitType, loc: MapLocation) -> None`
 
+Builds a tower at the given location. This requires there to be a ruin at the location. This also requires the 5x5 region to be painted correctly.
+
+- **Parameters**:
+  - `tower_type`: the type of tower to build. Must be a tower type.
+  - `loc`: the center of the pattern to build the tower at.
+- **Returns**: None
+- **Bytecode Cost**: 50
+
 ### complete_resource_pattern
 
 `def complete_resource_pattern(loc: MapLocation) -> None`
+
+Completes a 5x5 special resource pattern centered at the given location. This requires the 5x5 region to be painted correctly.
+- **Parameters**:
+  - `loc`: the center of the pattern to complete.
+- **Returns**: None
+- **Bytecode Cost**: 50
 
 ---
 
@@ -498,21 +611,53 @@ Spawns a robot at the given location. Robots can spawn within a circle of radius
 
 `def can_send_message(loc: MapLocation) -> bool`
 
+Returns true if the unit can send a message to a specific location, false otherwise. We can send a message to a location if it is within a specific distance and connected by paint, and only if one unit is a robot and the other is a tower.
+
+- **Parameters**:
+  - `loc`: the location to send the message to.
+- **Returns**: True if the unit can send a message to the given location, false otherwise.
+- **Bytecode Cost**: 50
+
 ### send_message
 
 `def send_message(loc: MapLocation, message_content: int) -> None`
+
+Sends a message (contained in an int, so 4 bytes) to a specific unit at a location on the map, if it is possible
+
+- **Parameters**:
+  - `loc`: the location to send the message to.
+  - `message_content`: an int representing the content of the message (up to 4 bytes).
+- **Returns**: None
+- **Bytecode Cost**: 50
 
 ### read_message
 
 `def read_message(round: int = -1) -> List[Message]`
 
+Reads all messages sent to this unit within the past 5 rounds if roundNum = -1, or only messages sent from the specified round otherwise
+
+- **Parameters**:
+  - `round`: the round number to read messages from, or -1 to read all messages from the past 5 rounds.
+- **Returns**: All messages of the specified round, or all messages from the past 5 rounds.
+- **Bytecode Cost**: 10
+
 ### can_broadcast_message
 
 `def can_broadcast_message() -> bool`
 
+Returns true if this tower can broadcast a message. You can broadcast a message if this robot is a tower and the tower has not yet sent the maximum number of messages this round (broadcasting a message to other towers counts as one message sent, even if multiple towers receive the message).
+
+- **Returns**: True if this tower can broadcast a message, false otherwise.
+
 ### broadcast_message
 
 `def broadcast_message(message_content: int) -> None`
+
+Broadcasts a message to all friendly towers within the broadcasting radius. This works the same as sendMessage, but it can only be performed by towers and sends the message to all friendly towers within range simultaneously. The towers need not be connected by paint to receive the message.
+
+- **Parameters**:
+  - `message_content`: an int representing the content of the message (up to 4 bytes).
+- **Returns**: None
 
 ---
 
@@ -522,9 +667,22 @@ Spawns a robot at the given location. Robots can spawn within a circle of radius
 
 `def can_transfer_paint(loc: MapLocation, amount: int) -> bool`
 
+Tests whether you can transfer paint to a given robot/tower. You can give paint to an allied robot/tower if you are a mopper and can act at the given location. You can take paint from allied towers regardless of type, if you can act at the location. Pass in a negative number to take paint.
+
+- **Parameters**:
+  - `loc`: the location of the robot/tower to transfer paint to/from.
+  - `amount`: the amount of paint to transfer. Positive to give paint, negative to take paint.
+- **Returns**: True if you can transfer the given amount of paint to/from the robot/tower at the given location, false otherwise.
+
 ### transfer_paint
 
 `def transfer_paint(loc: MapLocation, amount: int) -> None`
+
+Transfers paint from the robot's stash to the stash of the allied robot or tower at loc. Pass in a negative number to take paint, positive to give paint.
+- **Parameters**:
+  - `loc`: the location of the robot/tower to transfer paint to/from.
+  - `amount`: the amount of paint to transfer. Positive to give paint, negative to take paint.
+- **Returns**: None
 
 ---
 
@@ -534,9 +692,21 @@ Spawns a robot at the given location. Robots can spawn within a circle of radius
 
 `def can_upgrade_tower(tower_location: MapLocation) -> bool`
 
+Checks if a tower can be upgraded by verifying conditions on the location, team, tower level, and cost.
+- **Parameters**:
+  - `tower_location`: the location of the tower to upgrade.
+- **Returns**: True if the tower can be upgraded, false otherwise.
+- **Bytecode Cost**: 2
+
 ### upgrade_tower
 
 `def upgrade_tower(tower_location: MapLocation) -> None`
+
+Upgrades a tower if possible; subtracts the corresponding amount of money from the team.
+- **Parameters**:
+  - `tower_location`: the location of the tower to upgrade.
+- **Returns**: None
+- **Bytecode Cost**: 0
 
 ---
 
@@ -546,25 +716,73 @@ Spawns a robot at the given location. Robots can spawn within a circle of radius
 
 `def set_indicator_string(string: str) -> None`
 
+Sets the indicator string for this robot for debugging purposes. Only the first GameConstants.INDICATOR_STRING_MAX_LENGTH characters are used.
+
+- **Parameters**:
+  - `string`: the string to set as the indicator.
+- **Returns**: None
+- **Bytecode Cost**: 0
+
 ### set_indicator_dot
 
 `def set_indicator_dot(loc: MapLocation, red: int, green: int, blue: int) -> None`
+
+Draw a dot on the game map for debugging purposes.
+
+- **Parameters**:
+  - `loc`: the location to draw the dot at.
+  - `red`: the red component of the dot's color (0-255).
+  - `green`: the green component of the dot's color (0-255).
+  - `blue`: the blue component of the dot's color (0-255).
+- **Returns**: None
+- **Bytecode Cost**: 0
 
 ### set_indicator_line
 
 `def set_indicator_line(start: MapLocation, end: MapLocation, red: int, green: int, blue: int) -> None`
 
+Draw a line on the game map for debugging purposes.
+
+- **Parameters**:
+  - `start`: the starting location of the line.
+  - `end`: the ending location of the line.
+  - `red`: the red component of the line's color (0-255).
+  - `green`: the green component of the line's color (0-255).
+  - `blue`: the blue component of the line's color (0-255).
+- **Returns**: None
+- **Bytecode Cost**: 0
+
 ### set_timeline_marker
 
 `def set_timeline_marker(label: str, red: int, green: int, blue: int) -> None`
+
+Adds a marker to the timeline at the current round for debugging purposes. Only the first GameConstants.TIMELINE_LABEL_MAX_LENGTH characters are used.
+
+- **Parameters**:
+  - `label`: the label for the timeline marker.
+  - `red`: the red component of the marker's color (0-255).
+  - `green`: the green component of the marker's color (0-255).
+  - `blue`: the blue component of the marker's color (0-255).
+- **Returns**: None
+- **Bytecode Cost**: 0
 
 ### resign
 
 `def resign() -> None`
 
+Causes your team to lose the game. It's like typing "gg."
+
+- **Returns**: None
+- **Bytecode Cost**: 0
+
 ### disintegrate
 
 `def disintegrate() -> None`
+
+Destroys the robot.
+
+- **Returns**: None
+- **Bytecode Cost**: 0
 
 ---
 
@@ -574,20 +792,40 @@ Spawns a robot at the given location. Robots can spawn within a circle of radius
 
 `def yield_turn() -> None`
 
+Ends the processing of this robot during the current round. Never fails.
+- **Returns**: None
+- **Bytecode Cost**: 0
+
 ### get_bytecode_num
 
 `def get_bytecode_num() -> int`
+
+Returns the number of bytecodes the current robot has executed since the beginning of the current round.
+- **Returns**: The number of bytecodes the current robot has executed since the beginning of the current round.
+- **Bytecode Cost**: 0
 
 ### get_bytecode_left
 
 `def get_bytecode_left() -> int`
 
+Returns the number of bytecodes this robot has left in this round.
+- **Returns**: The number of bytecodes this robot has left in this round.
+- **Bytecode Cost**: 0
+
 ### get_time_elapsed
 
 `def get_time_elapsed() -> int`
 
+Returns the total amount of time that this team's robots have collectively spent executing since the beginning of the match.
+- **Returns**: the total execution time, in nanoseconds
+- **Bytecode Cost**: 0
+
 ### get_time_left
 
 `def get_time_left() -> int`
+
+Returns the total amount of execution time left this team has before they timeout
+- **Returns**: The total amount of execution time left this team has before they timeout, in milliseconds.
+- **Bytecode Cost**: 0
 
 ---
